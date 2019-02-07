@@ -24,18 +24,36 @@ public class MainController {
     public Button tbRemoveResearchPaper;
     public Button tbEditResearchPaper;
     public Tab ResearchPaperTab;
-    public TableView tabelaResearchPapers;
+    public TableView<ResearchPaper> tableResearchPapers;
     public TableColumn colResearchPaperName;
-    public TableColumn colNameAuthor;
+    public TableColumn<ResearchPaper, String> colNameAuthor;
     public Button searchBtn;
+    public TableColumn colSubject;
     private ResearchPaperDAO dao;
+    private ObservableList<ResearchPaper> listRP;
 
     public MainController() {
         dao = dao.getInstance();
+        listRP = dao.getResearchPapers();
     }
 
     @FXML
     public void initialize(){
+        tableResearchPapers.setItems(listRP);
+        colResearchPaperName.setCellValueFactory(new PropertyValueFactory("researchPaperName"));
+        colSubject.setCellValueFactory(new PropertyValueFactory("subject"));
+        colNameAuthor.setCellValueFactory((data) -> {
+            String str = "";
+            var authors = data.getValue().getAuthors();
+            int i = 0;
+            for(Author s : authors) {
+                if(i++ != authors.size() - 1)
+                    str += s.getName() + " " + s.getSurname() + ",";
+                else str += s.getName() + " " + s.getSurname();
+            }
+            SimpleStringProperty property = new SimpleStringProperty(str);
+            return property;
+            });
 
     }
 

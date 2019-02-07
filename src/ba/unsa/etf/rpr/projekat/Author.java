@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr.projekat;
 
-public class Autor {
+public class Author {
     private int id;
     private String name = "";
     private String surname = "";
@@ -8,7 +8,7 @@ public class Autor {
     private String university = "";
 
 
-    public Autor(int id, String name, String surname, String title, String uniAka) {
+    public Author(int id, String name, String surname, String title, String uniAka) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -16,7 +16,7 @@ public class Autor {
         this.university = uniAka;
 
     }
-    public Autor(String name, String surname, String title, String uniAka) {
+    public Author(String name, String surname, String title, String uniAka) {
         this.name = name;
         this.surname = surname;
         this.title = title;
@@ -24,7 +24,7 @@ public class Autor {
 
     }
 
-    public Autor() {}
+    public Author() {}
 
 
     public String getName() {

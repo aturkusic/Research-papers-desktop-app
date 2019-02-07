@@ -1,6 +1,5 @@
 package ba.unsa.etf.rpr.projekat;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class ResearchPaper {
@@ -8,10 +7,10 @@ public class ResearchPaper {
     private String researchPaperName = "";
     private String subject = "";
     private String[] keywords;
-    private ArrayList<Autor> authors = new ArrayList<>();
+    private ArrayList<Author> authors = new ArrayList<>();
 
 
-    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Autor> authors) {
+    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors) {
         this.id = id;
         this.researchPaperName = resName;
         this.authors = authors;
@@ -35,11 +34,11 @@ public class ResearchPaper {
         this.researchPaperName = researchPaperName;
     }
 
-    public ArrayList<Autor> getAuthors() {
+    public ArrayList<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(ArrayList<Autor> authors) {
+    public void setAuthors(ArrayList<Author> authors) {
         this.authors = authors;
     }
 
