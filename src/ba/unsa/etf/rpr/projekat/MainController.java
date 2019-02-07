@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
-public class GlavnaController {
+public class MainController {
 
     public Button tbAddResearchPaper;
     public Button tbRemoveResearchPaper;
@@ -27,8 +27,12 @@ public class GlavnaController {
     public TableView tabelaResearchPapers;
     public TableColumn colResearchPaperName;
     public TableColumn colNameAuthor;
-    public TableColumn colSurnameAuthor;
     public Button searchBtn;
+    private ResearchPaperDAO dao;
+
+    public MainController() {
+        dao = dao.getInstance();
+    }
 
     @FXML
     public void initialize(){
