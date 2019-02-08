@@ -18,7 +18,7 @@ import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 public class AddController {
     public TextField resPaperNameField;
     public TextField subjectField;
-    public TextField KeywordsField;
+    public TextField keywordsField;
     public Button addNewAuthorBtn;
     public TextArea textArea;
     public Button okButton;
@@ -35,8 +35,8 @@ public class AddController {
 
     @FXML
     public void initialize() {
+        keywordsField.setPromptText("Separate with comma");
         listAuthors.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        String str = "";
         listAuthors.setCellFactory(param -> new ListCell<Author>() {
             @Override
             protected void updateItem(Author item, boolean empty) {
@@ -52,7 +52,7 @@ public class AddController {
         if(researchPaper == null) {
             var autori = dao.getAuthors();
             for (Author a : autori) listAuthors.getItems().add(a);
-        } else {
+        } else { // ovo je slucaj ako je izmjena postojeceg a ne dodavanje novog
             var autori = dao.getAuthors();
             for (Author a : autori) listAuthors.getItems().add(a);
             int i = 0;
@@ -62,7 +62,21 @@ public class AddController {
                 }
                 i = 0;
             }
+            resPaperNameField.setText(researchPaper.getResearchPaperName());
+            subjectField.setText(researchPaper.getSubject());
+            String str = "";
+            i = 0;
+            for(String s : researchPaper.getKeywords()) {
+                if(i++ != researchPaper.getKeywords().length - 1)
+                    str += s + ",";
+                else str += s;
+            }
+            keywordsField.setText(str);
+            textArea.setText(dao.getTextForResearchPaper(researchPaper));
         }
+        inputValidation(resPaperNameField, this::nameSubjectValidation);
+        inputValidation(subjectField, this::nameSubjectValidation);
+        inputValidation(keywordsField, this::keywordsValidation);
     }
 
     public MainController getController() {
@@ -99,6 +113,14 @@ public class AddController {
 
     public void cancelButtonAction(ActionEvent actionEvent) {
         cancelButton.getScene().getWindow().hide();
+    }
+
+    private boolean nameSubjectValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty() && s.matches("[a-zA-Z]+"));
+    }
+
+    private boolean keywordsValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty());
     }
 
     //provjera koja ce radit za sve textfield

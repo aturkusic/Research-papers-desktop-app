@@ -171,6 +171,19 @@ public class ResearchPaperDAO {
 
     }
 
+    public String getTextForResearchPaper(ResearchPaper researchPaper) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT text from ResearchPapers where id = ?;");
+            ps.setInt(1 , researchPaper.getId());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 }
