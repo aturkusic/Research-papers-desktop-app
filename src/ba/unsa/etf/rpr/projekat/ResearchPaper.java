@@ -57,4 +57,16 @@ public class ResearchPaper {
     public void setKeywords(String[] keywords) {
         this.keywords = keywords;
     }
+
+    public String getKeywordsAsString() {
+        String str = "";
+        int i = 0;
+        for(String s : keywords) {
+            if(i++ != keywords.length - 1)
+                str += s + ",";
+            else str += s;
+        }
+        return str;
+    }
+
 }

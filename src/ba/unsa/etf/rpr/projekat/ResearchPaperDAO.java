@@ -185,5 +185,29 @@ public class ResearchPaperDAO {
         return null;
     }
 
+    public void addResearchPaper(ResearchPaper researchPaper, String text) {
+        ResultSet rs = null;
+        try {
+            rs = getNewIdResearchPaper.executeQuery();
+            int id = 0;
+            if (rs.next()) id = rs.getInt(1);
+            researchPaper.setId(id);
+            addResearchPaper.setInt(1, researchPaper.getId());
+            addResearchPaper.setString(2, researchPaper.getResearchPaperName());
+            addResearchPaper.setString(3, researchPaper.getSubject());
+            addResearchPaper.setString(4, researchPaper.getKeywordsAsString());
+            addResearchPaper.setString(5, text);
+            addResearchPaper.executeUpdate();
+            PreparedStatement ps = conn.prepareStatement("insert into ResearchPapers_Authors values (?,?);");
+            for(Author a : researchPaper.getAuthors()) {
+                ps.setInt(1, researchPaper.getId());
+                ps.setInt(2, a.getId());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

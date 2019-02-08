@@ -69,13 +69,11 @@ public class MainController {
             stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
-            stage.showAndWait();
-
             stage.setOnHiding( event -> {
-               /* listaVlasnika = dao.getVlasnici();
-                tabelaVlasnici.setItems(listaVlasnika);
-                listaMjesta = dao.getMjesta();*/
+                listRP = dao.getResearchPapers();
+                tableResearchPapers.setItems(listRP);
             } );
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,13 +94,12 @@ public class MainController {
             stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
+            stage.setOnHiding( event -> {
+
+            } );
             stage.showAndWait();
 
-            stage.setOnHiding( event -> {
-               /* listaVlasnika = dao.getVlasnici();
-                tabelaVlasnici.setItems(listaVlasnika);
-                listaMjesta = dao.getMjesta();*/
-            } );
+
         } catch (IOException e) {
             e.printStackTrace();
         }

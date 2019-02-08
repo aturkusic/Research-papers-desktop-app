@@ -9,8 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.function.Function;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
@@ -109,6 +111,27 @@ public class AddController {
     }
 
     public void okButtonAction(ActionEvent actionEvent) {
+        if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && researchPaper == null) {
+            String[] strings =subjectField.getText().split(",");
+            ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
+            ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori);
+            dao.addResearchPaper(researchPaper, textArea.getText());
+            okButton.getScene().getWindow().hide();
+        } else if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null) {
+
+        } else if(listAuthors.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No authors selected!!!");
+            alert.initStyle(StageStyle.UTILITY);
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid fields!!!");
+            alert.initStyle(StageStyle.UTILITY);
+            alert.showAndWait();
+        }
     }
 
     public void cancelButtonAction(ActionEvent actionEvent) {
@@ -116,7 +139,7 @@ public class AddController {
     }
 
     private boolean nameSubjectValidation(String s) {
-        return (!s.equals("") && !s.trim().isEmpty() && s.matches("[a-zA-Z]+"));
+        return (!s.equals("") && !s.trim().isEmpty() && !s.matches(".*\\d+.*"));
     }
 
     private boolean keywordsValidation(String s) {
