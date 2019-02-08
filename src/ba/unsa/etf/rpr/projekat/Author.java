@@ -21,7 +21,6 @@ public class Author {
         this.surname = surname;
         this.title = title;
         this.university = uniAka;
-
     }
 
     public Author() {}

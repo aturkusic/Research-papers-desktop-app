@@ -152,6 +152,24 @@ public class ResearchPaperDAO {
         return researchPapers;
     }
 
+    public void addAuthor(Author author) {
+        ResultSet rs = null;
+        try {
+            rs = getNewIdAuthor.executeQuery();
+            int id = 0;
+            if (rs.next()) id = rs.getInt(1);
+            author.setId(id);
+            addAuthor.setInt(1, author.getId());
+            addAuthor.setString(2, author.getName());
+            addAuthor.setString(3, author.getSurname());
+            addAuthor.setString(4, author.getTitle());
+            addAuthor.setString(5, author.getUniversity());
+            addAuthor.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 

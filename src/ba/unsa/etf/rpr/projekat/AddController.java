@@ -1,16 +1,17 @@
 package ba.unsa.etf.rpr.projekat;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.function.Function;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -21,6 +22,7 @@ public class AddController {
     public Button addNewAuthorBtn;
     public TextArea textArea;
     public Button okButton;
+    public ListView<String> listAuthors;
     public Button cancelButton;
     private MainController controller = null;
    ResearchPaperDAO dao = null;
@@ -33,6 +35,10 @@ public class AddController {
 
     @FXML
     public void initialize() {
+        listAuthors.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        String str = "";
+        var autori = dao.getAuthors();
+        for(Author a : autori) listAuthors.getItems().add(a.getName() + " " + a.getSurname());
     }
 
     public MainController getController() {
@@ -69,5 +75,23 @@ public class AddController {
 
     public void cancelButtonAction(ActionEvent actionEvent) {
         cancelButton.getScene().getWindow().hide();
+    }
+
+    //provjera koja ce radit za sve textfield
+    private void inputValidation(TextField text, Function<String, Boolean> validacija) {
+        if(text != null) {
+            text.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                    if (validacija.apply(n)) {
+                        text.getStyleClass().removeAll("poljeNijeIspravno");
+                        text.getStyleClass().add("poljeIspravno");
+                    } else {
+                        text.getStyleClass().removeAll("poljeIspravno");
+                        text.getStyleClass().add("poljeNijeIspravno");
+                    }
+                }
+            });
+        }
     }
 }
