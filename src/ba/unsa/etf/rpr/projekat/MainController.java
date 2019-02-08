@@ -58,6 +58,27 @@ public class MainController {
     }
 
     public void tbAddResearchPaperAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
+            AddController vlasnikController = new AddController(dao, null);
+            vlasnikController.setController(this);
+            loader.setController(vlasnikController);
+            root = loader.load();
+            stage.setTitle("Add research paper");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            stage.setOnHiding( event -> {
+               /* listaVlasnika = dao.getVlasnici();
+                tabelaVlasnici.setItems(listaVlasnika);
+                listaMjesta = dao.getMjesta();*/
+            } );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void tbChangeResearchPaperAction(ActionEvent actionEvent) {
