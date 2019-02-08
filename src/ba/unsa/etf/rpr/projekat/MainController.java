@@ -62,9 +62,9 @@ public class MainController {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
-            AddController vlasnikController = new AddController(dao, null);
-            vlasnikController.setController(this);
-            loader.setController(vlasnikController);
+            AddController rPController = new AddController(dao, null);
+            rPController.setController(this);
+            loader.setController(rPController);
             root = loader.load();
             stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
