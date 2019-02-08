@@ -209,5 +209,27 @@ public class ResearchPaperDAO {
         }
     }
 
+    public void updateResearchPaper(ResearchPaper researchPaper, String text) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("delete from ResearchPapers_Authors where researchP_id = ?;");
+            ps.setInt(1, researchPaper.getId());
+            ps.executeUpdate();
+            changeResearchPaper.setString(1, researchPaper.getResearchPaperName());
+            changeResearchPaper.setString(2, researchPaper.getSubject());
+            changeResearchPaper.setString(3, researchPaper.getKeywordsAsString());
+            changeResearchPaper.setString(4, text);
+            changeResearchPaper.setInt(5, researchPaper.getId());
+            changeResearchPaper.executeUpdate();
+            ps = conn.prepareStatement("insert into ResearchPapers_Authors values (?,?);");
+            for(Author a : researchPaper.getAuthors()) {
+                ps.setInt(1, researchPaper.getId());
+                ps.setInt(2, a.getId());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

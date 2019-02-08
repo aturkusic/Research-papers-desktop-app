@@ -95,7 +95,8 @@ public class MainController {
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.setOnHiding( event -> {
-
+                listRP = dao.getResearchPapers();
+                tableResearchPapers.setItems(listRP);
             } );
             stage.showAndWait();
 

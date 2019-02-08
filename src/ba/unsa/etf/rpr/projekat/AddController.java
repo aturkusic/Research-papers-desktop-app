@@ -60,7 +60,7 @@ public class AddController {
             int i = 0;
             for(Author a : researchPaper.getAuthors()) {
                 for(Author s : listAuthors.getItems()) {
-                    if(a.getId() == s.getId()) listAuthors.getSelectionModel().select(i++);
+                    if(a.getId() == s.getId()) listAuthors.getSelectionModel().select(s);
                 }
                 i = 0;
             }
@@ -111,14 +111,23 @@ public class AddController {
     }
 
     public void okButtonAction(ActionEvent actionEvent) {
+        //ako je dodavanje novog
         if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && researchPaper == null) {
-            String[] strings =subjectField.getText().split(",");
+            String[] strings =keywordsField.getText().split(",");
             ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
             ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori);
             dao.addResearchPaper(researchPaper, textArea.getText());
             okButton.getScene().getWindow().hide();
+            //ako je izmjena starog
         } else if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null) {
-
+            ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
+            String[] strings =keywordsField.getText().split(",");
+            researchPaper.setResearchPaperName(resPaperNameField.getText());
+            researchPaper.setSubject(subjectField.getText());
+            researchPaper.setKeywords(strings);
+            researchPaper.setAuthors(autori);
+            dao.updateResearchPaper(researchPaper, textArea.getText());
+            okButton.getScene().getWindow().hide();
         } else if(listAuthors.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
