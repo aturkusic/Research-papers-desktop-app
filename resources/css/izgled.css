@@ -1,0 +1,29 @@
+.btn1 {
+    -fx-background-image: url("/img/plusIcon.png");
+    -fx-background-size: 18 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+.btn2 {
+    -fx-background-image: url("/img/minusIcon.png");
+    -fx-background-size: 17 19;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+.btn3{
+    -fx-background-image: url("/img/changeicon.png");
+    -fx-background-size: 17 18;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+
+.poljeIspravno {
+    -fx-control-inner-background: #adff2f;
+}
+.poljeNijeIspravno {
+    -fx-control-inner-background: lightpink;
+}
+
+.poljeNeutralno {
+    -fx-background-color: white;
+}

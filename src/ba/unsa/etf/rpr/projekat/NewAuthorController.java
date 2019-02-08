@@ -39,7 +39,7 @@ public class NewAuthorController {
         if(nameSurnameTitleValidation(authorNameField.getText()) && nameSurnameTitleValidation(authorSurnameField.getText()) &&nameSurnameTitleValidation(authorTitleField.getText()) && universityValidation(unyInstituteField.getText())) {
             Author author = new Author(0, authorNameField.getText(), authorSurnameField.getText(), authorTitleField.getText(), unyInstituteField.getText());
             dao.addAuthor(author);
-            addController.listAuthors.getItems().add(author.getName() + " " + author.getSurname());
+            addController.listAuthors.getItems().add(author);
             okButton.getScene().getWindow().hide();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

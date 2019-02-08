@@ -81,10 +81,31 @@ public class MainController {
         }
     }
 
-    public void tbChangeResearchPaperAction(ActionEvent actionEvent) {
-    }
 
     public void tbEditResearchPaperAction(ActionEvent actionEvent) {
+        ResearchPaper researchPaper = tableResearchPapers.getSelectionModel().getSelectedItem();
+        if(researchPaper == null) return;
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
+            AddController rPController = new AddController(dao, researchPaper);
+            rPController.setController(this);
+            loader.setController(rPController);
+            root = loader.load();
+            stage.setTitle("Add research paper");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            stage.setOnHiding( event -> {
+               /* listaVlasnika = dao.getVlasnici();
+                tabelaVlasnici.setItems(listaVlasnika);
+                listaMjesta = dao.getMjesta();*/
+            } );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void searchBtnAction(ActionEvent actionEvent) {

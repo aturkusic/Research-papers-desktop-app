@@ -22,7 +22,7 @@ public class AddController {
     public Button addNewAuthorBtn;
     public TextArea textArea;
     public Button okButton;
-    public ListView<String> listAuthors;
+    public ListView<Author> listAuthors;
     public Button cancelButton;
     private MainController controller = null;
    ResearchPaperDAO dao = null;
@@ -37,8 +37,32 @@ public class AddController {
     public void initialize() {
         listAuthors.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         String str = "";
-        var autori = dao.getAuthors();
-        for(Author a : autori) listAuthors.getItems().add(a.getName() + " " + a.getSurname());
+        listAuthors.setCellFactory(param -> new ListCell<Author>() {
+            @Override
+            protected void updateItem(Author item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getName() == null || item.getSurname() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName() + " " + item.getSurname());
+                }
+            }
+        });
+        if(researchPaper == null) {
+            var autori = dao.getAuthors();
+            for (Author a : autori) listAuthors.getItems().add(a);
+        } else {
+            var autori = dao.getAuthors();
+            for (Author a : autori) listAuthors.getItems().add(a);
+            int i = 0;
+            for(Author a : researchPaper.getAuthors()) {
+                for(Author s : listAuthors.getItems()) {
+                    if(a.getId() == s.getId()) listAuthors.getSelectionModel().select(i++);
+                }
+                i = 0;
+            }
+        }
     }
 
     public MainController getController() {
