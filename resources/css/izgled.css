@@ -27,3 +27,16 @@
 .poljeNeutralno {
     -fx-background-color: white;
 }
+
+#mainPane{
+    -fx-background-image: url("/img/previewBackgrond.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1025 759;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.textarea{
+    -fx-control-inner-background: antiqueWhite;
+    -fx-background-color: peru;
+}
