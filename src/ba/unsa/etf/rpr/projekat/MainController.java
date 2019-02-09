@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static java.awt.Frame.NORMAL;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class MainController {
@@ -85,23 +86,24 @@ public class MainController {
             });
             return row;
         });
-        FilteredList<ResearchPaper> filteredList = new FilteredList<>(listRP, e -> true);
-        searchField.setOnKeyPressed( e -> {
-            searchField.textProperty().addListener((observableValue, o, n) -> {
-                filteredList.setPredicate((Predicate<? super ResearchPaper>) predicate -> {
-                        if(n == null || n.isEmpty()) return true;
-                        if(predicate.getResearchPaperName().toLowerCase().contains(n) || predicate.getResearchPaperName().contains(n)) return true;
-                        else if(predicate.getSubject().toLowerCase().contains(n)) return true;
-                        else if(predicate.getKeywordsAsString().toLowerCase().contains(n)) return true;
-                        else if(predicate.getNamesOfAuthorsAsString().contains(n)) return true;
-                        return false;
+        new Thread(() -> {
+            FilteredList<ResearchPaper> filteredList = new FilteredList<>(listRP, e -> true);
+            searchField.setOnKeyPressed( e -> {
+                searchField.textProperty().addListener((observableValue, o, n) -> {
+                    filteredList.setPredicate((Predicate<? super ResearchPaper>) predicate -> {
+                            if(n == null || n.isEmpty()) return true;
+                            if(predicate.getResearchPaperName().toLowerCase().contains(n) || predicate.getResearchPaperName().contains(n)) return true;
+                            else if(predicate.getSubject().toLowerCase().contains(n)) return true;
+                            else if(predicate.getKeywordsAsString().toLowerCase().contains(n)) return true;
+                            else if(predicate.getNamesOfAuthorsAsString().contains(n)) return true;
+                            return false;
+                    });
                 });
+                SortedList<ResearchPaper> sortedList = new SortedList<>(filteredList);
+                sortedList.comparatorProperty().bind(tableResearchPapers.comparatorProperty());
+                tableResearchPapers.setItems(sortedList);
             });
-            SortedList<ResearchPaper> sortedList = new SortedList<>(filteredList);
-            sortedList.comparatorProperty().bind(tableResearchPapers.comparatorProperty());
-            tableResearchPapers.setItems(sortedList);
-        });
-
+        }).start();
 
 
     }
@@ -169,6 +171,21 @@ public class MainController {
         pomocniProzor.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         pomocniProzor.initModality(Modality.APPLICATION_MODAL);
         pomocniProzor.show();
+    }
+
+    @FXML
+    public void printAction() {
+
+    }
+
+    @FXML
+    public void exitAction(){
+        System.exit(NORMAL);
+    }
+
+    @FXML
+    public void saveAction(){
+
     }
 
 }

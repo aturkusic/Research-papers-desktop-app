@@ -24,8 +24,9 @@
         <menus>
           <Menu mnemonicParsing="true" text="_Options">
             <items>
-                  <MenuItem text="_Open" />
-              <MenuItem text="_Close" />
+                  <MenuItem onAction="#saveAction" text="_Save" />
+                  <MenuItem onAction="#printAction" text="_Print" />
+              <MenuItem onAction="#exitAction" text="_Exit" />
             </items>
           </Menu>
             <Menu mnemonicParsing="true" text="_About">

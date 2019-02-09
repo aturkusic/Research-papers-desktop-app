@@ -36,6 +36,24 @@
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
+#addWindow{
+     -fx-background-image: url("/img/bezSlova.png");
+     -fx-background-repeat: stretch;
+     -fx-background-size: 389 397;
+     -fx-background-position: center center;
+     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+     overflow: hidden;
+ }
+
+#add2Window{
+    -fx-background-image: url("/img/bezSlova.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1123 633;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    overflow: hidden;
+}
+
 .textarea{
     -fx-control-inner-background: antiqueWhite;
     -fx-background-color: peru;
