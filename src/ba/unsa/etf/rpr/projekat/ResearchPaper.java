@@ -69,4 +69,14 @@ public class ResearchPaper {
         return str;
     }
 
+    public String getNamesOfAuthorsAsString() {
+        String str = "";
+        int i = 0;
+        for (Author a : authors) {
+            if (i++ != authors.size() - 1)
+                str += a.getName() + " " + a.getSurname() + ",";
+            else str += a.getName() + " " + a.getSurname();
+        }
+            return str;
+    }
 }

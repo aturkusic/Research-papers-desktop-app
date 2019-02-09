@@ -2,8 +2,12 @@ package ba.unsa.etf.rpr.projekat;
 
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +20,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -28,7 +34,7 @@ public class MainController {
     public TableView<ResearchPaper> tableResearchPapers;
     public TableColumn colResearchPaperName;
     public TableColumn<ResearchPaper, String> colNameAuthor;
-    public Button searchBtn;
+    public TextField searchField;
     public TableColumn colSubject;
     private ResearchPaperDAO dao;
     private ObservableList<ResearchPaper> listRP;
@@ -79,6 +85,24 @@ public class MainController {
             });
             return row;
         });
+        FilteredList<ResearchPaper> filteredList = new FilteredList<>(listRP, e -> true);
+        searchField.setOnKeyPressed( e -> {
+            searchField.textProperty().addListener((observableValue, o, n) -> {
+                filteredList.setPredicate((Predicate<? super ResearchPaper>) predicate -> {
+                        if(n == null || n.isEmpty()) return true;
+                        if(predicate.getResearchPaperName().toLowerCase().contains(n) || predicate.getResearchPaperName().contains(n)) return true;
+                        else if(predicate.getSubject().toLowerCase().contains(n)) return true;
+                        else if(predicate.getKeywordsAsString().toLowerCase().contains(n)) return true;
+                        else if(predicate.getNamesOfAuthorsAsString().contains(n)) return true;
+                        return false;
+                });
+            });
+            SortedList<ResearchPaper> sortedList = new SortedList<>(filteredList);
+            sortedList.comparatorProperty().bind(tableResearchPapers.comparatorProperty());
+            tableResearchPapers.setItems(sortedList);
+        });
+
+
 
     }
 
@@ -147,7 +171,4 @@ public class MainController {
         pomocniProzor.show();
     }
 
-    public void searchBtnAction(ActionEvent actionEvent) {
-
-    }
 }
