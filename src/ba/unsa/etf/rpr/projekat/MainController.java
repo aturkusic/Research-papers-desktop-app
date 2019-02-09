@@ -15,11 +15,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -185,6 +186,37 @@ public class MainController {
 
     @FXML
     public void saveAction(){
+        ResearchPaper researchPaper = tableResearchPapers.getSelectionModel().getSelectedItem();
+        if(researchPaper == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Select research paper from table!!!");
+            alert.initStyle(StageStyle.UTILITY);
+            alert.showAndWait();
+            return;
+        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text file", "*.txt"),
+                new FileChooser.ExtensionFilter("PDF file", "*.pdf"),
+                new FileChooser.ExtensionFilter("Word file", "*.doc")
+        );
+        final Stage stage = new Stage();
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        if (selectedFile != null) {
+            doSave(selectedFile, researchPaper);
+        }
+    }
+
+    public void doSave(File file, ResearchPaper researchPaper) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(dao.getTextForResearchPaper(researchPaper));
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
     }
 
