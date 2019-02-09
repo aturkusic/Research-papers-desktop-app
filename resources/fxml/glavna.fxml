@@ -21,15 +21,15 @@
     <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Options">
+          <Menu mnemonicParsing="true" text="_Options">
             <items>
                   <MenuItem text="_Open" />
               <MenuItem text="_Close" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="About">
+            <Menu mnemonicParsing="true" text="_About">
               <items>
-                <MenuItem text="_About" />
+                <MenuItem onAction="#aboutAction" text="_About" />
               </items>
             </Menu>
         </menus>
