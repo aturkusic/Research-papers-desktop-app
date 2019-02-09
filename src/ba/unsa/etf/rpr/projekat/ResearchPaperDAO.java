@@ -232,4 +232,7 @@ public class ResearchPaperDAO {
 
     }
 
+    public Connection getConn() {
+        return conn;
+    }
 }

@@ -19,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.sf.jasperreports.engine.JRException;
 
 import java.io.*;
 import java.util.function.Function;
@@ -176,7 +177,11 @@ public class MainController {
 
     @FXML
     public void printAction() {
-
+        try {
+            new ResearchPaperReport().showReport(dao.getConn());
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @FXML
