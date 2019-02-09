@@ -55,6 +55,30 @@ public class MainController {
             SimpleStringProperty property = new SimpleStringProperty(str);
             return property;
             });
+        tableResearchPapers.setRowFactory( tv -> {
+            TableRow<ResearchPaper> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    ResearchPaper researchPaper = tableResearchPapers.getSelectionModel().getSelectedItem();
+                    if(researchPaper == null) return;
+                    Stage stage = new Stage();
+                    Parent root = null;
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/doubleClick.fxml"));
+                        DoubleClickController dCController = new DoubleClickController(dao, researchPaper);
+                        loader.setController(dCController);
+                        root = loader.load();
+                        stage.setTitle("Preview");
+                        stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+                        stage.setResizable(false);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row;
+        });
 
     }
 

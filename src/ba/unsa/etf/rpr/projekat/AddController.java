@@ -101,10 +101,6 @@ public class AddController {
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.showAndWait();
-
-            stage.setOnHiding( event -> {
-
-            } );
         } catch (IOException e) {
             e.printStackTrace();
         }
