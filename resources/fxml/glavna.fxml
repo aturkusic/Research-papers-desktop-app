@@ -22,16 +22,16 @@
     <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="true" text="_Options">
+          <Menu mnemonicParsing="true" text="%_Options">
             <items>
-                  <MenuItem onAction="#saveAction" text="_Save" />
-                  <MenuItem onAction="#printAction" text="_Print" />
-              <MenuItem onAction="#exitAction" text="_Exit" />
+                  <MenuItem onAction="#saveAction" text="%_Save" />
+                  <MenuItem onAction="#printAction" text="%_Print" />
+              <MenuItem onAction="#exitAction" text="%_Exit" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="true" text="_About">
+            <Menu mnemonicParsing="true" text="%_About">
               <items>
-                <MenuItem onAction="#aboutAction" text="_About" />
+                <MenuItem onAction="#aboutAction" text="%_About" />
               </items>
             </Menu>
         </menus>
@@ -40,13 +40,13 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="ResearchPaperTab" text="Research Papers">
+          <Tab fx:id="ResearchPaperTab" text="%ResearchPapers">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
                         <HBox prefHeight="29.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Label text="Search:">
+                              <Label text="%Search">
                                  <HBox.margin>
                                     <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                                  </HBox.margin>
@@ -75,9 +75,9 @@
                      <center>
                         <TableView fx:id="tableResearchPapers" prefHeight="416.0" prefWidth="743.0" BorderPane.alignment="CENTER">
                            <columns>
-                              <TableColumn fx:id="colResearchPaperName" prefWidth="138.0" text="Research Paper" />
-                              <TableColumn fx:id="colSubject" prefWidth="129.0" text="Subject" />
-                              <TableColumn fx:id="colNameAuthor" prefWidth="496.0" text="Author/s" />
+                              <TableColumn fx:id="colResearchPaperName" prefWidth="138.0" text="%ResearchPaper" />
+                              <TableColumn fx:id="colSubject" prefWidth="129.0" text="%Subject" />
+                              <TableColumn fx:id="colNameAuthor" prefWidth="496.0" text="%Author/s" />
                            </columns></TableView>
                      </center>
                   </BorderPane>

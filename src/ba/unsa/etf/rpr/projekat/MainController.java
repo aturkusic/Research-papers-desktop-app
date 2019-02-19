@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.*;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -139,7 +140,8 @@ public class MainController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
+            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/glavna.fxml" ), bundle);
             AddController rPController = new AddController(dao, researchPaper);
             rPController.setController(this);
             loader.setController(rPController);
@@ -177,11 +179,13 @@ public class MainController {
 
     @FXML
     public void printAction() {
-        try {
-            new ResearchPaperReport().showReport(dao.getConn());
-        } catch (JRException e1) {
-            e1.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                new ResearchPaperReport().showReport(dao.getConn());
+            } catch (JRException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
