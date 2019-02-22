@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import java.net.URL?>
 <GridPane fx:id="addWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/izgled.css" />
@@ -33,17 +33,17 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="25.0" prefWidth="58.0" text="Cancel">
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="25.0" prefWidth="58.0" text="%Otkaži">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
          </children>
       </HBox>
-      <Label text="Name:" />
-      <Label text="Surname:" GridPane.rowIndex="1" />
-      <Label text="Title:" GridPane.rowIndex="2" />
-      <Label text="University/Institute:" GridPane.rowIndex="3" />
+      <Label text="%Name" />
+      <Label text="%Surname" GridPane.rowIndex="1" />
+      <Label text="%Title" GridPane.rowIndex="2" />
+      <Label text="%University" GridPane.rowIndex="3" />
       <TextField fx:id="authorNameField" GridPane.columnIndex="1">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

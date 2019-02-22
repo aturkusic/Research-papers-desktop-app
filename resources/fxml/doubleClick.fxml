@@ -38,7 +38,7 @@
           <RowConstraints maxHeight="604.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Name:">
+            <Label text="%Name">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -46,7 +46,7 @@
                   <Font name="System Italic" size="14.0" />
                </font>
             </Label>
-            <Label text="Subject:" GridPane.rowIndex="1">
+            <Label text="%Subject1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -54,7 +54,7 @@
                   <Font name="System Italic" size="14.0" />
                </font>
             </Label>
-            <Label text="Authors:" GridPane.rowIndex="2">
+            <Label text="%Authors" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -84,7 +84,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </ListView>
-            <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#closeAction" prefHeight="30.0" prefWidth="83.0" text="Close" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#closeAction" prefHeight="30.0" prefWidth="83.0" text="%Close" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <effect>
             <InnerShadow>

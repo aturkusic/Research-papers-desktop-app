@@ -84,8 +84,8 @@ public class MainController {
                     Stage stage = new Stage();
                     Parent root = null;
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/doubleClick.fxml"));
-                        DoubleClickController dCController = new DoubleClickController(dao, researchPaper);
+                        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/doubleClick.fxml" ), bundle);
+                        DoubleClickController dCController = new DoubleClickController(dao, researchPaper, bundle);
                         loader.setController(dCController);
                         root = loader.load();
                         stage.setTitle("Preview");
@@ -125,10 +125,10 @@ public class MainController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
-            AddController rPController = new AddController(dao, null);
-            rPController.setController(this);
-            loader.setController(rPController);
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/add.fxml" ), bundle);
+            AddController addController = new AddController(dao, null);
+            addController.setController(this);
+            loader.setController(addController);
             root = loader.load();
             stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
@@ -150,11 +150,10 @@ public class MainController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            ResourceBundle bundle = ResourceBundle.getBundle("Translation");
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/add.fxml" ), bundle);
-            AddController rPController = new AddController(dao, researchPaper);
-            rPController.setController(this);
-            loader.setController(rPController);
+            AddController editController = new AddController(dao, researchPaper);
+            editController.setController(this);
+            loader.setController(editController);
             root = loader.load();
             stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
@@ -172,7 +171,7 @@ public class MainController {
     }
 
     public void aboutAction(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/about.fxml"));
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/about.fxml" ), bundle);
         Parent root = null;
         try {
             root = loader.load();

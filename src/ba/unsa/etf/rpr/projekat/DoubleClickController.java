@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -23,10 +24,12 @@ public class DoubleClickController {
     public Button closeBtn;
     private ResearchPaperDAO dao;
     private ResearchPaper researchPaper;
+    private ResourceBundle bundle;
 
-    public DoubleClickController(ResearchPaperDAO dao, ResearchPaper researchPaper) {
+    public DoubleClickController(ResearchPaperDAO dao, ResearchPaper researchPaper, ResourceBundle bundle) {
         this.dao = dao;
         this.researchPaper = researchPaper;
+        this.bundle = bundle;
     }
 
     @FXML
@@ -52,7 +55,7 @@ public class DoubleClickController {
                     Stage stage = new Stage();
                     Parent root = null;
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/authorInfo.fxml"));
+                        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/authorInfo.fxml" ), bundle);
                         AuthorInfoController authorController = new AuthorInfoController(author);
                         loader.setController(authorController);
                         root = loader.load();

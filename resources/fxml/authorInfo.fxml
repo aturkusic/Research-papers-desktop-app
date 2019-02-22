@@ -20,7 +20,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Name:">
+      <Label text="%Name">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -28,7 +28,7 @@
          <font>
             <Font name="Book Antiqua" size="14.0" />
          </font></Label>
-      <Label text="Surname:" GridPane.rowIndex="1">
+      <Label text="%Surname" GridPane.rowIndex="1">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -36,7 +36,7 @@
          <font>
             <Font name="Book Antiqua" size="14.0" />
          </font></Label>
-      <Label text="Title:" GridPane.rowIndex="2">
+      <Label text="%Title" GridPane.rowIndex="2">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -44,7 +44,7 @@
          <font>
             <Font name="Book Antiqua" size="14.0" />
          </font></Label>
-      <Label text="University/Institute:" GridPane.rowIndex="3">
+      <Label text="%University" GridPane.rowIndex="3">
          <font>
             <Font size="14.0" />
          </font></Label>
