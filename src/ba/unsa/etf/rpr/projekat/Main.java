@@ -16,6 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/glavna.fxml" ), bundle);
+        loader.setController(new MainController(bundle));
         Parent root = loader.load();
         primaryStage.setTitle("Research papers");
         primaryStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));

@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -32,7 +33,6 @@ import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 public class MainController {
 
     public Button tbAddResearchPaper;
-    public Button tbRemoveResearchPaper;
     public Button tbEditResearchPaper;
     public Tab ResearchPaperTab;
     public TableView<ResearchPaper> tableResearchPapers;
@@ -40,10 +40,20 @@ public class MainController {
     public TableColumn<ResearchPaper, String> colNameAuthor;
     public TextField searchField;
     public TableColumn colSubject;
+    public CheckMenuItem engLanguage;
+    public CheckMenuItem bsLanguage;
     private ResearchPaperDAO dao;
     private ObservableList<ResearchPaper> listRP;
+    private ResourceBundle bundle;
+
 
     public MainController() {
+        dao = dao.getInstance();
+        listRP = dao.getResearchPapers();
+    }
+
+    public MainController(ResourceBundle bundle) {
+        this.bundle = bundle;
         dao = dao.getInstance();
         listRP = dao.getResearchPapers();
     }
@@ -107,7 +117,7 @@ public class MainController {
                 tableResearchPapers.setItems(sortedList);
             });
         }).start();
-
+        engLanguage.selectedProperty().setValue(true);
 
     }
 
@@ -141,7 +151,7 @@ public class MainController {
         Parent root = null;
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/glavna.fxml" ), bundle);
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/add.fxml" ), bundle);
             AddController rPController = new AddController(dao, researchPaper);
             rPController.setController(this);
             loader.setController(rPController);
@@ -227,6 +237,32 @@ public class MainController {
                 e.printStackTrace();
             }
 
+    }
+
+    public void bosanskiAction(ActionEvent actionEvent) {
+        engLanguage.selectedProperty().setValue(false);
+        bsLanguage.selectedProperty().setValue(true);
+        Locale.setDefault(new Locale("bs", "BA"));
+        reloadScene(false , true);
+    }
+
+    private void reloadScene(boolean eng, boolean bs) {
+        bundle = ResourceBundle.getBundle("Translation");
+        Scene scene = tableResearchPapers.getScene();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/glavna.fxml"), bundle);
+        loader.setController(this);
+        try {
+            scene.setRoot(loader.load());
+            engLanguage.selectedProperty().setValue(eng);
+            bsLanguage.selectedProperty().setValue(bs);
+        } catch (IOException ignored) {
+
+        }
+    }
+
+    public void engAction(ActionEvent actionEvent) {
+        Locale.setDefault(new Locale("eng", "ENG"));
+        reloadScene(true, false);
     }
 
 }
