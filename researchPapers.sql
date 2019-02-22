@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `ResearchPapers` (
 	`subject`	TEXT,
 	`keywords` TEXT,
 	`text`  TEXT,
+	`datum_objavljivanja`	DATE,
 	PRIMARY KEY(`id`)
 );
 CREATE TABLE IF NOT EXISTS `ResearchPapers_Authors` (

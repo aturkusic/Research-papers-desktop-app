@@ -12,7 +12,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
@@ -27,12 +29,14 @@ public class AddController {
     public ListView<Author> listAuthors;
     public Button cancelButton;
     private MainController controller = null;
-   ResearchPaperDAO dao = null;
-   ResearchPaper researchPaper = null;
+    private ResearchPaperDAOBaza dao = null;
+    private ResearchPaper researchPaper = null;
+    private  ResourceBundle bundle;
 
-    public AddController(ResearchPaperDAO dao, ResearchPaper researchPaper) {
+    public AddController(ResearchPaperDAOBaza dao, ResearchPaper researchPaper, ResourceBundle bundle) {
         this.dao = dao;
         this.researchPaper = researchPaper;
+        this.bundle = bundle;
     }
 
     @FXML
@@ -93,11 +97,12 @@ public class AddController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/authorAdd.fxml"));
+            FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/authorAdd.fxml" ), bundle);
             NewAuthorController authorController = new NewAuthorController(dao, this);
             loader.setController(authorController);
             root = loader.load();
-            stage.setTitle("Add author");
+            if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Dodaj autora");
+            else stage.setTitle("Add author");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.showAndWait();
@@ -111,7 +116,7 @@ public class AddController {
         if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && researchPaper == null) {
             String[] strings =keywordsField.getText().split(",");
             ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
-            ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori);
+            ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori, LocalDate.now());
             dao.addResearchPaper(researchPaper, textArea.getText());
             okButton.getScene().getWindow().hide();
             //ako je izmjena starog

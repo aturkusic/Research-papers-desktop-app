@@ -18,10 +18,10 @@ public class NewAuthorController {
     public TextField authorTitleField;
     public TextField unyInstituteField;
     public Button cancelButton;
-    private ResearchPaperDAO dao;
+    private ResearchPaperDAOBaza dao;
     private AddController addController;
 
-    public NewAuthorController(ResearchPaperDAO dao, AddController addController) {
+    public NewAuthorController(ResearchPaperDAOBaza dao, AddController addController) {
         this.dao = dao;
         this.addController = addController;
     }

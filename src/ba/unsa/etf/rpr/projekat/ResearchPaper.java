@@ -1,21 +1,26 @@
 package ba.unsa.etf.rpr.projekat;
 
+import javafx.beans.property.SimpleStringProperty;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ResearchPaper {
     private int id;
-    private String researchPaperName = "";
-    private String subject = "";
+    private String researchPaperName;
+    private String subject;
     private String[] keywords;
-    private ArrayList<Author> authors = new ArrayList<>();
+    private ArrayList<Author> authors;
+    private SimpleStringProperty dateOfPublish = new SimpleStringProperty("");
 
-
-    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors) {
+    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors, LocalDate dateOfPublish) {
         this.id = id;
         this.researchPaperName = resName;
         this.authors = authors;
         this.subject = subject;
         this.keywords = keywords;
+        this.setDateOfPublish(dateOfPublish);
     }
 
     public int getId() {
@@ -78,5 +83,23 @@ public class ResearchPaper {
             else str += a.getName() + " " + a.getSurname();
         }
             return str;
+    }
+
+    //vrsim koverziju iz striga u LocalDate
+    public LocalDate getDateOfPublish() {
+        DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate datum = LocalDate.now();
+        if(!dateOfPublish.get().equals("")) {
+            String anotherDate = dateOfPublish.getValue();
+            datum = LocalDate.parse(anotherDate.replaceAll("\\s+",""), dTF);
+        }
+        return datum;
+    }
+
+    //konverzija iz LocalDate u string koji sacuvam u SympleStringProperty atribut
+    public void setDateOfPublish(LocalDate dateOfPublish) {
+        DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String s = dTF.format(dateOfPublish);
+        this.dateOfPublish.setValue(s);
     }
 }

@@ -2,9 +2,6 @@ package ba.unsa.etf.rpr.projekat;
 
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -22,9 +19,9 @@ import javafx.stage.StageStyle;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.awt.Frame.NORMAL;
@@ -35,34 +32,48 @@ public class MainController {
     public Button tbAddResearchPaper;
     public Button tbEditResearchPaper;
     public Tab ResearchPaperTab;
+    public Tab authorsTab;
     public TableView<ResearchPaper> tableResearchPapers;
+    public TableView<Author> tableAuthors;
     public TableColumn colResearchPaperName;
     public TableColumn<ResearchPaper, String> colNameAuthor;
     public TextField searchField;
     public TableColumn colSubject;
+    public TableColumn dateOfPublish;
     public CheckMenuItem engLanguage;
     public CheckMenuItem bsLanguage;
-    private ResearchPaperDAO dao;
+    public TextField searchFieldAuthors;
+    public TableColumn<Author, String> colName;
+    public TableColumn<Author, String> colResPapers;
+    public TableColumn colUnyAuthor;
+    public TableColumn colTitleAuthor;
+    private ResearchPaperDAOBaza dao;
     private ObservableList<ResearchPaper> listRP;
+    private ObservableList<Author> listAuthors;
     private ResourceBundle bundle;
 
 
     public MainController() {
         dao = dao.getInstance();
         listRP = dao.getResearchPapers();
+        listAuthors = dao.getAuthors();
     }
 
     public MainController(ResourceBundle bundle) {
         this.bundle = bundle;
         dao = dao.getInstance();
         listRP = dao.getResearchPapers();
+        listAuthors = dao.getAuthors();
     }
 
     @FXML
     public void initialize(){
         tableResearchPapers.setItems(listRP);
+        tableAuthors.setItems(listAuthors);
+        //Postavljanje vrijednosti kolona
         colResearchPaperName.setCellValueFactory(new PropertyValueFactory("researchPaperName"));
         colSubject.setCellValueFactory(new PropertyValueFactory("subject"));
+        dateOfPublish.setCellValueFactory(new PropertyValueFactory<>("dateOfPublish"));
         colNameAuthor.setCellValueFactory((data) -> {
             String str = "";
             var authors = data.getValue().getAuthors();
@@ -75,6 +86,27 @@ public class MainController {
             SimpleStringProperty property = new SimpleStringProperty(str);
             return property;
             });
+        colResPapers.setCellValueFactory((data) -> {
+            String str = "";
+            ArrayList<String> lista = dao.getAllResearchPapersFromAuthor(data.getValue().getId());
+            int i = 0;
+            for(String s : lista) {
+                if(i++ != lista.size() - 1)
+                    str += s + ", ";
+                else str += s;
+            }
+            SimpleStringProperty property = new SimpleStringProperty(str);
+            return property;
+        });
+        colTitleAuthor.setCellValueFactory(new PropertyValueFactory("title"));
+        colUnyAuthor.setCellValueFactory(new PropertyValueFactory("university"));
+        colName.setCellValueFactory((data) -> {
+            String str = "";
+            str = data.getValue().getName() + " " + data.getValue().getSurname();
+            SimpleStringProperty property = new SimpleStringProperty(str);
+            return property;
+        });
+        //Dvoklik akcija
         tableResearchPapers.setRowFactory( tv -> {
             TableRow<ResearchPaper> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -88,7 +120,8 @@ public class MainController {
                         DoubleClickController dCController = new DoubleClickController(dao, researchPaper, bundle);
                         loader.setController(dCController);
                         root = loader.load();
-                        stage.setTitle("Preview");
+                        if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Pregled");
+                        else stage.setTitle("Preview");
                         stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
                         stage.setResizable(false);
                         stage.showAndWait();
@@ -126,23 +159,25 @@ public class MainController {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/add.fxml" ), bundle);
-            AddController addController = new AddController(dao, null);
+            AddController addController = new AddController(dao, null, bundle);
             addController.setController(this);
             loader.setController(addController);
             root = loader.load();
-            stage.setTitle("Add research paper");
+            if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Dodaj naucni rad");
+            else stage.setTitle("Add research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.setOnHiding( event -> {
                 listRP = dao.getResearchPapers();
                 tableResearchPapers.setItems(listRP);
+                listAuthors = dao.getAuthors();
+                tableAuthors.setItems(listAuthors);
             } );
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void tbEditResearchPaperAction(ActionEvent actionEvent) {
         ResearchPaper researchPaper = tableResearchPapers.getSelectionModel().getSelectedItem();
@@ -151,16 +186,19 @@ public class MainController {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/add.fxml" ), bundle);
-            AddController editController = new AddController(dao, researchPaper);
+            AddController editController = new AddController(dao, researchPaper, bundle);
             editController.setController(this);
             loader.setController(editController);
             root = loader.load();
-            stage.setTitle("Add research paper");
+            if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Izmijeni naucni rad");
+            else stage.setTitle("Edit research paper");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.setOnHiding( event -> {
                 listRP = dao.getResearchPapers();
                 tableResearchPapers.setItems(listRP);
+                listAuthors = dao.getAuthors();
+                tableAuthors.setItems(listAuthors);
             } );
             stage.showAndWait();
 
@@ -179,7 +217,8 @@ public class MainController {
             e.printStackTrace();
         }
         Stage pomocniProzor = new Stage();
-        pomocniProzor.setTitle("About");
+        if(bundle.getLocale().toString().equals("bs")) pomocniProzor.setTitle("O aplikaciji");
+        else pomocniProzor.setTitle("About");
         pomocniProzor.resizableProperty().setValue(false);
         pomocniProzor.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         pomocniProzor.initModality(Modality.APPLICATION_MODAL);
@@ -198,8 +237,15 @@ public class MainController {
     }
 
     @FXML
-    public void exitAction(){
-        System.exit(NORMAL);
+    public void exitAction() {
+        Alert info = new Alert(Alert.AlertType.CONFIRMATION);
+        if(bundle.getLocale().toString().equals("bs")) info.setHeaderText("Da li sigurno zelite izaci?");
+        else info.setHeaderText("Are you sure you want to exit?");
+        info.showAndWait();
+        if (info.getResult() == ButtonType.OK) {
+            info.close();
+            System.exit(NORMAL);
+        }
     }
 
     @FXML
@@ -235,7 +281,6 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
     }
 
     public void bosanskiAction(ActionEvent actionEvent) {

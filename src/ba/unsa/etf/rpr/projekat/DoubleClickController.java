@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,11 +21,11 @@ public class DoubleClickController {
     public Label subjectLabel;
     public ListView<Author> authorsField;
     public Button closeBtn;
-    private ResearchPaperDAO dao;
+    private ResearchPaperDAOBaza dao;
     private ResearchPaper researchPaper;
     private ResourceBundle bundle;
 
-    public DoubleClickController(ResearchPaperDAO dao, ResearchPaper researchPaper, ResourceBundle bundle) {
+    public DoubleClickController(ResearchPaperDAOBaza dao, ResearchPaper researchPaper, ResourceBundle bundle) {
         this.dao = dao;
         this.researchPaper = researchPaper;
         this.bundle = bundle;
@@ -59,7 +58,8 @@ public class DoubleClickController {
                         AuthorInfoController authorController = new AuthorInfoController(author);
                         loader.setController(authorController);
                         root = loader.load();
-                        stage.setTitle("Information about author");
+                        if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Informacije o autoru");
+                        else stage.setTitle("Information about author");
                         stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
                         stage.setResizable(false);
                         stage.showAndWait();

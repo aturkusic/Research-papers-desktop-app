@@ -84,12 +84,43 @@
                            <columns>
                               <TableColumn fx:id="colResearchPaperName" prefWidth="138.0" text="%ResearchPaper" />
                               <TableColumn fx:id="colSubject" prefWidth="129.0" text="%Subject" />
-                              <TableColumn fx:id="colNameAuthor" prefWidth="496.0" text="%Author/s" />
+                              <TableColumn fx:id="colNameAuthor" prefWidth="373.0" text="%Author/s" />
+                              <TableColumn fx:id="dateOfPublish" prefWidth="124.0" text="%Datum" />
                            </columns></TableView>
                      </center>
                   </BorderPane>
                </content>
           </Tab>
+            <Tab fx:id="authorsTab" text="%Authors1">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox prefHeight="36.0" prefWidth="765.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefHeight="24.0" prefWidth="55.0" text="%Search">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin></Label>
+                              <TextField fx:id="searchFieldAuthors">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children></HBox>
+                     </top>
+                     <center>
+                        <TableView fx:id="tableAuthors" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="colName" prefWidth="112.0" text="%Name1" />
+                              <TableColumn fx:id="colTitleAuthor" prefWidth="120.0" text="%Title1" />
+                              <TableColumn fx:id="colUnyAuthor" prefWidth="144.0" text="%University1" />
+                            <TableColumn fx:id="colResPapers" prefWidth="365.0" text="%ResearchPapers" />
+                          </columns>
+                        </TableView>
+                     </center>
+                  </BorderPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>
