@@ -163,11 +163,8 @@ public class MainController {
                         else if(predicate.getUniversity().toLowerCase().contains(n.toLowerCase())) return true;
                         else {
                             var lista = dao.getAllResearchPapersFromAuthor(predicate.getId());
-                            for(var x : lista) {
-                                if(x.toLowerCase().contains(n.toLowerCase())) return true;
-                            }
+                            return daLiSadrziPodstring(n, lista);
                         }
-                        return false;
                     });
                 });
                 SortedList<Author> sortedList = new SortedList<>(filteredList);
@@ -177,6 +174,14 @@ public class MainController {
         }).start();
         engLanguage.selectedProperty().setValue(true);
 
+    }
+
+    //genericka za nalazenje podsekvence u listi stringova(pretraga)
+    public static<Tip2 extends String> boolean daLiSadrziPodstring(CharSequence x, ArrayList<Tip2> lista) {
+        for(Tip2 x1 : lista) {
+            if(x1.toLowerCase().contains(x.toString().toLowerCase())) return true;
+        }
+        return false;
     }
 
     public void tbAddResearchPaperAction(ActionEvent actionEvent) {

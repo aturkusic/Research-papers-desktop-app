@@ -102,4 +102,5 @@ public class ResearchPaper {
         String s = dTF.format(dateOfPublish);
         this.dateOfPublish.setValue(s);
     }
+
 }

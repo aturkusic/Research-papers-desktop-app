@@ -27,7 +27,6 @@ public class Author implements Serializable {
 
     public Author() {}
 
-
     public String getName() {
         return name;
     }

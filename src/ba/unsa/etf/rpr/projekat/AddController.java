@@ -29,14 +29,18 @@ public class AddController {
     public ListView<Author> listAuthors;
     public Button cancelButton;
     private MainController controller = null;
-    private ResearchPaperDAOBaza dao = null;
-    private ResearchPaper researchPaper = null;
+    private ResearchPaperDAOBaza dao;
+    private ResearchPaper researchPaper;
     private  ResourceBundle bundle;
+    private enum Purpose {ADD, EDIT}
+    private Purpose purpose;
 
     public AddController(ResearchPaperDAOBaza dao, ResearchPaper researchPaper, ResourceBundle bundle) {
         this.dao = dao;
         this.researchPaper = researchPaper;
         this.bundle = bundle;
+        if(researchPaper == null) purpose = Purpose.ADD;
+        else purpose = Purpose.EDIT;
     }
 
     @FXML
@@ -55,7 +59,7 @@ public class AddController {
                 }
             }
         });
-        if(researchPaper == null) {
+        if(purpose == Purpose.ADD) {
             var autori = dao.getAuthors();
             for (Author a : autori) listAuthors.getItems().add(a);
         } else { // ovo je slucaj ako je izmjena postojeceg a ne dodavanje novog
@@ -113,7 +117,7 @@ public class AddController {
 
     public void okButtonAction(ActionEvent actionEvent) {
         //ako je dodavanje novog
-        if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && researchPaper == null) {
+        if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && purpose == Purpose.ADD) {
             String[] strings =keywordsField.getText().split(",");
             ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
             ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori, LocalDate.now());
