@@ -138,16 +138,35 @@ public class MainController {
                 searchField.textProperty().addListener((observableValue, o, n) -> {
                     filteredList.setPredicate((Predicate<? super ResearchPaper>) predicate -> {
                             if(n == null || n.isEmpty()) return true;
-                            if(predicate.getResearchPaperName().toLowerCase().contains(n) || predicate.getResearchPaperName().contains(n)) return true;
-                            else if(predicate.getSubject().toLowerCase().contains(n)) return true;
-                            else if(predicate.getKeywordsAsString().toLowerCase().contains(n)) return true;
-                            else if(predicate.getNamesOfAuthorsAsString().contains(n)) return true;
+                            if(predicate.getResearchPaperName().toLowerCase().contains(n.toLowerCase())) return true;
+                            else if(predicate.getSubject().toLowerCase().contains(n.toLowerCase())) return true;
+                            else if(predicate.getKeywordsAsString().toLowerCase().contains(n.toLowerCase())) return true;
+                            else if(predicate.getNamesOfAuthorsAsString().contains(n.toLowerCase())) return true;
                             return false;
                     });
                 });
                 SortedList<ResearchPaper> sortedList = new SortedList<>(filteredList);
                 sortedList.comparatorProperty().bind(tableResearchPapers.comparatorProperty());
                 tableResearchPapers.setItems(sortedList);
+            });
+        }).start();
+        //Pretraga za autora
+        new Thread(() -> {
+            FilteredList<Author> filteredList = new FilteredList<>(listAuthors, e -> true);
+            searchFieldAuthors.setOnKeyPressed( e -> {
+                searchFieldAuthors.textProperty().addListener((observableValue, o, n) -> {
+                    filteredList.setPredicate((Predicate<? super Author>) predicate -> {
+                        if(n == null || n.isEmpty()) return true;
+                        if(predicate.getName().toLowerCase().contains(n.toLowerCase())) return true;
+                        if(predicate.getSurname().toLowerCase().contains(n) || predicate.getSurname().contains(n.toLowerCase())) return true;
+                        else if(predicate.getTitle().toLowerCase().contains(n.toLowerCase())) return true;
+                        else if(predicate.getUniversity().toLowerCase().contains(n.toLowerCase())) return true;
+                        return false;
+                    });
+                });
+                SortedList<Author> sortedList = new SortedList<>(filteredList);
+                sortedList.comparatorProperty().bind(tableAuthors.comparatorProperty());
+                tableAuthors.setItems(sortedList);
             });
         }).start();
         engLanguage.selectedProperty().setValue(true);
