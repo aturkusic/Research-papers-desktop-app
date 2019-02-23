@@ -161,6 +161,12 @@ public class MainController {
                         if(predicate.getSurname().toLowerCase().contains(n) || predicate.getSurname().contains(n.toLowerCase())) return true;
                         else if(predicate.getTitle().toLowerCase().contains(n.toLowerCase())) return true;
                         else if(predicate.getUniversity().toLowerCase().contains(n.toLowerCase())) return true;
+                        else {
+                            var lista = dao.getAllResearchPapersFromAuthor(predicate.getId());
+                            for(var x : lista) {
+                                if(x.toLowerCase().contains(n.toLowerCase())) return true;
+                            }
+                        }
                         return false;
                     });
                 });
