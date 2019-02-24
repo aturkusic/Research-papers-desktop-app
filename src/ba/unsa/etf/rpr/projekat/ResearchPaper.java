@@ -14,13 +14,23 @@ public class ResearchPaper {
     private ArrayList<Author> authors;
     private SimpleStringProperty dateOfPublish = new SimpleStringProperty("");
 
-    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors, LocalDate dateOfPublish) {
+    public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors, LocalDate dateOfPublish) throws WrongResearchPaperDataException {
+        if(!(id >= 0 && nameSubjectValidation(resName) && nameSubjectValidation(subject) && !dateOfPublish.isAfter(LocalDate.now()))) throw new WrongResearchPaperDataException("Wrong research paper info.");
+        for(var x : keywords) if(x.equals("")) throw new WrongResearchPaperDataException("Wrong research paper info.");
         this.id = id;
         this.researchPaperName = resName;
         this.authors = authors;
         this.subject = subject;
         this.keywords = keywords;
         this.setDateOfPublish(dateOfPublish);
+    }
+
+    private boolean nameSubjectValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty() && !s.matches(".*\\d+.*"));
+    }
+
+    private boolean keywordsValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty());
     }
 
     public int getId() {

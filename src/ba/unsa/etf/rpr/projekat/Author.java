@@ -10,7 +10,8 @@ public class Author implements Serializable {
     private String university = "";
 
 
-    public Author(int id, String name, String surname, String title, String uniAka) {
+    public Author(int id, String name, String surname, String title, String uniAka) throws WrongAuthorDataException {
+        if(!(nameSurnameTitleValidation(name) && nameSurnameTitleValidation(surname) && nameSurnameTitleValidation(title) && universityValidation(uniAka) && id >= 0)) throw new WrongAuthorDataException("Wrong info about author");
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -18,12 +19,22 @@ public class Author implements Serializable {
         this.university = uniAka;
 
     }
-    public Author(String name, String surname, String title, String uniAka) {
+    public Author(String name, String surname, String title, String uniAka) throws WrongAuthorDataException {
+        if(!(nameSurnameTitleValidation(name) && nameSurnameTitleValidation(surname) && nameSurnameTitleValidation(title) && universityValidation(uniAka))) throw new WrongAuthorDataException("Wrong info about author");
         this.name = name;
         this.surname = surname;
         this.title = title;
         this.university = uniAka;
     }
+
+    private boolean nameSurnameTitleValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty() && s.matches("[a-zA-Z]+"));
+    }
+
+    private boolean universityValidation(String s) {
+        return (!s.equals("") && !s.trim().isEmpty());
+    }
+
 
     public Author() {}
 

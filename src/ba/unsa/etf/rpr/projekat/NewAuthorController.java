@@ -37,7 +37,12 @@ public class NewAuthorController {
 
     public void okButtonAction(ActionEvent actionEvent) {
         if(nameSurnameTitleValidation(authorNameField.getText()) && nameSurnameTitleValidation(authorSurnameField.getText()) &&nameSurnameTitleValidation(authorTitleField.getText()) && universityValidation(unyInstituteField.getText())) {
-            Author author = new Author(0, authorNameField.getText(), authorSurnameField.getText(), authorTitleField.getText(), unyInstituteField.getText());
+            Author author = null;
+            try {
+                author = new Author(0, authorNameField.getText(), authorSurnameField.getText(), authorTitleField.getText(), unyInstituteField.getText());
+            } catch (WrongAuthorDataException e) {
+                e.printStackTrace();
+            }
             dao.addAuthor(author);
             addController.listAuthors.getItems().add(author);
             okButton.getScene().getWindow().hide();

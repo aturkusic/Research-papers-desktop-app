@@ -92,8 +92,13 @@ public class ResearchPaperDAOBaza implements ResearchPaperDAO{
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 //ako ima vracamo odmah
-                Author v = new Author(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
-                        resultSet.getString(5));
+                Author v = null;
+                try {
+                    v = new Author(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+                            resultSet.getString(5));
+                } catch (WrongAuthorDataException e) {
+                    e.printStackTrace();
+                }
 
                 return v;
             }
@@ -131,7 +136,11 @@ public class ResearchPaperDAOBaza implements ResearchPaperDAO{
                 ResultSet rs2 = ps1.executeQuery();
                 while (rs2.next()) autori.add(getAuthorById(rs2.getInt(1)));
                 String[] strings = rs.getString(4).split(",");
-                return new ResearchPaper(rs.getInt(1), rs.getString(2), rs.getString(3), strings, autori, rs.getDate(6).toLocalDate());
+                try {
+                    return new ResearchPaper(rs.getInt(1), rs.getString(2), rs.getString(3), strings, autori, rs.getDate(6).toLocalDate());
+                } catch (WrongResearchPaperDataException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

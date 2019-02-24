@@ -120,7 +120,12 @@ public class AddController {
         if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && purpose == Purpose.ADD) {
             String[] strings =keywordsField.getText().split(",");
             ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
-            ResearchPaper researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori, LocalDate.now());
+            ResearchPaper researchPaper = null;
+            try {
+                researchPaper = new ResearchPaper(0, resPaperNameField.getText(), subjectField.getText(), strings, autori, LocalDate.now());
+            } catch (WrongResearchPaperDataException e) {
+                e.printStackTrace();
+            }
             dao.addResearchPaper(researchPaper, textArea.getText());
             okButton.getScene().getWindow().hide();
             //ako je izmjena starog
