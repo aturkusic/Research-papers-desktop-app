@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <GridPane fx:id="add2Window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1123.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
@@ -27,8 +28,8 @@
     <RowConstraints maxHeight="231.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="103.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="205.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="192.0" minHeight="10.0" prefHeight="125.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="192.0" minHeight="10.0" prefHeight="188.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
@@ -49,11 +50,6 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></TextField>
-      <Button fx:id="addNewAuthorBtn" mnemonicParsing="false" onAction="#addNewAuthorBtnAction" text="%AddNew" GridPane.columnIndex="3" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Button>
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="6">
          <children>
             <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonAction" prefHeight="25.0" prefWidth="76.0" text="Ok">
@@ -78,5 +74,19 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </ListView>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+         <children>
+            <Button fx:id="addNewAuthorBtn" mnemonicParsing="false" onAction="#addNewAuthorBtnAction" text="%AddNew">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="fromXmlBtn" mnemonicParsing="false" onAction="#fromXMLAction" prefHeight="25.0" prefWidth="74.0" text="%fromXml">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </GridPane>

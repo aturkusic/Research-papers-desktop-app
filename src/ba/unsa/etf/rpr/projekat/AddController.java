@@ -3,14 +3,24 @@ package ba.unsa.etf.rpr.projekat;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +34,7 @@ public class AddController {
     public TextField subjectField;
     public TextField keywordsField;
     public Button addNewAuthorBtn;
+    public Button fromXmlBtn;
     public TextArea textArea;
     public Button okButton;
     public ListView<Author> listAuthors;
@@ -87,6 +98,43 @@ public class AddController {
         inputValidation(resPaperNameField, this::nameSubjectValidation);
         inputValidation(subjectField, this::nameSubjectValidation);
         inputValidation(keywordsField, this::keywordsValidation);
+
+        listAuthors.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                if (click.getClickCount() == 2) {
+                    Author author = listAuthors.getSelectionModel().getSelectedItem();
+                    if(author == null) return;
+                    Stage stage = new Stage();
+                    Parent root = null;
+                    try {
+                        FXMLLoader loader = new FXMLLoader( getClass().getResource("/fxml/authorInfo.fxml" ), bundle);
+                        AuthorInfoController authorController = new AuthorInfoController(author);
+                        loader.setController(authorController);
+                        root = loader.load();
+                        if(bundle.getLocale().toString().equals("bs")) stage.setTitle("Informacije o autoru/ima");
+                        else stage.setTitle("Information about author/s");
+                        stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+                        stage.setResizable(false);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        Tooltip tooltip = new Tooltip();
+        if(bundle.getLocale().toString().equals("bs")) tooltip.setText("Drzite CTRL za selekciju vise autora.\nDvoklik za informacije o autoru.");
+        else tooltip.setText("Hold CTRL for multiple selection.\nDoubleClik for author info.");
+        listAuthors.setTooltip(tooltip);
+        Tooltip t1 = new Tooltip();
+        Tooltip t2 = new Tooltip();
+        if(bundle.getLocale().toString().equals("bs")) t1.setText("Dodaj novog autora.");
+        else t1.setText("Add new author.");
+        if(bundle.getLocale().toString().equals("bs")) t2.setText("Dodaj novog autora preko XML fajla.");
+        else t2.setText("Add new author with XML file.");
+        addNewAuthorBtn.setTooltip(t1);
+        fromXmlBtn.setTooltip(t2);
     }
 
     public MainController getController() {
@@ -150,6 +198,53 @@ public class AddController {
             alert.setHeaderText("Invalid fields!!!");
             alert.initStyle(StageStyle.UTILITY);
             alert.showAndWait();
+        }
+    }
+
+    //Ucitavanje iz xml fajla
+    public void openXMLAuthor(File test) {
+        Document xmldoc = null;
+        try {
+            DocumentBuilder docReader = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            xmldoc = docReader.parse(test);
+        } catch (Exception e) {
+            System.out.println("Nije validan XML dokument");
+            return;
+        }
+        try {
+            NodeList listaAuthors = xmldoc.getElementsByTagName("author");
+            for (int i = 0; i < listaAuthors.getLength(); i++) {
+                Node author = listaAuthors.item(i);
+                if (author.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) author;
+                    Author tmpAuthor = new Author();
+                    tmpAuthor.setName(element.getElementsByTagName("name").item(0).getTextContent());
+                    tmpAuthor.setSurname(element.getElementsByTagName("surname").item(0).getTextContent());
+                    tmpAuthor.setTitle(element.getElementsByTagName("title").item(0).getTextContent());
+                    tmpAuthor.setUniversity(element.getElementsByTagName("university").item(0).getTextContent());
+                    dao.addAuthor(tmpAuthor);
+                    listAuthors.getItems().add(tmpAuthor);
+                    listAuthors.getSelectionModel().select(tmpAuthor);
+                }
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Pogrešan format datoteke");
+            alert.setHeaderText("Neispravan format datoteke");
+            alert.initStyle(StageStyle.UTILITY);
+            alert.showAndWait();
+        }
+    }
+
+    public void fromXMLAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("XML File", "*.xml"));
+        final Stage stage = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            openXMLAuthor(selectedFile);
         }
     }
 

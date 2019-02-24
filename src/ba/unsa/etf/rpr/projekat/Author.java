@@ -14,8 +14,8 @@ public class Author extends Person implements Serializable {
         this.surname = surname;
         this.title = title;
         this.university = uniAka;
-
     }
+
     public Author(String name, String surname, String title, String uniAka) throws WrongAuthorDataException {
         if(!(nameSurnameTitleValidation(name) && nameSurnameTitleValidation(surname) && nameSurnameTitleValidation(title) && universityValidation(uniAka))) throw new WrongAuthorDataException("Wrong info about author");
         this.name = name;
