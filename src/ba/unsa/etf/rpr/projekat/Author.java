@@ -2,13 +2,10 @@ package ba.unsa.etf.rpr.projekat;
 
 import java.io.Serializable;
 
-public class Author implements Serializable {
+public class Author extends Person implements Serializable {
     private int id;
-    private String name = "";
-    private String surname = "";
     private String title = "";
     private String university = "";
-
 
     public Author(int id, String name, String surname, String title, String uniAka) throws WrongAuthorDataException {
         if(!(nameSurnameTitleValidation(name) && nameSurnameTitleValidation(surname) && nameSurnameTitleValidation(title) && universityValidation(uniAka) && id >= 0)) throw new WrongAuthorDataException("Wrong info about author");
@@ -27,6 +24,8 @@ public class Author implements Serializable {
         this.university = uniAka;
     }
 
+    public Author() {}
+
     private boolean nameSurnameTitleValidation(String s) {
         return (!s.equals("") && !s.trim().isEmpty() && s.matches("[a-zA-Z]+"));
     }
@@ -34,9 +33,6 @@ public class Author implements Serializable {
     private boolean universityValidation(String s) {
         return (!s.equals("") && !s.trim().isEmpty());
     }
-
-
-    public Author() {}
 
     public String getName() {
         return name;
