@@ -1,8 +1,8 @@
 package ba.unsa.etf.rpr.projekat;
 
 public class Person {
-    protected String name;
-    protected String surname;
+    protected String name = "";
+    protected String surname = "";
 
     public Person(String name, String surname) {
         this.name = name;

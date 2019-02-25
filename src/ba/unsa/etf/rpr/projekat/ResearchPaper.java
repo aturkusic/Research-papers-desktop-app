@@ -2,17 +2,21 @@ package ba.unsa.etf.rpr.projekat;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ResearchPaper {
     private int id;
-    private String researchPaperName;
-    private String subject;
+    private String researchPaperName = "";
+    private String subject = "";
     private String[] keywords;
-    private ArrayList<Author> authors;
+    private ArrayList<Author> authors = new ArrayList<>();
     private SimpleStringProperty dateOfPublish = new SimpleStringProperty("");
+
+    public ResearchPaper() {}
 
     public ResearchPaper(int id, String resName, String subject, String[] keywords, ArrayList<Author> authors, LocalDate dateOfPublish) throws WrongResearchPaperDataException {
         if(!(id >= 0 && nameSubjectValidation(resName) && nameSubjectValidation(subject) && !dateOfPublish.isAfter(LocalDate.now()))) throw new WrongResearchPaperDataException("Wrong research paper info.");

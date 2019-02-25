@@ -23,11 +23,10 @@ public class ResearchPaperDAOBaza implements ResearchPaperDAO{
     private Connection conn;
 
     public static ResearchPaperDAOBaza getInstance() {
-        if (instanca == null) instanca = new ResearchPaperDAOBaza();
+        if (instanca == null) initialize();
         return instanca;
     }
 
-    // konstruktor
     public ResearchPaperDAOBaza() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:researchPapers.db");
@@ -58,6 +57,13 @@ public class ResearchPaperDAOBaza implements ResearchPaperDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void removeInstance() { instanca = null; }
+
+
+    private static void initialize() {
+        instanca = new ResearchPaperDAOBaza();
     }
 
     //regenerise bazu u slucaju da nema tabela

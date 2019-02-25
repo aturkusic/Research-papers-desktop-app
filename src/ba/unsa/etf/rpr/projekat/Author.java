@@ -2,7 +2,7 @@ package ba.unsa.etf.rpr.projekat;
 
 import java.io.Serializable;
 
-public class Author extends Person implements Serializable {
+public class Author extends Person {
     private int id;
     private String title = "";
     private String university = "";
@@ -73,4 +73,10 @@ public class Author extends Person implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + surname + "\n" + title + "\n" + university + "\n";
+    }
+
 }

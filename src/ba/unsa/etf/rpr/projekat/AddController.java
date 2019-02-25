@@ -56,7 +56,8 @@ public class AddController {
 
     @FXML
     public void initialize() {
-        keywordsField.setPromptText("Separate with comma");
+        if(bundle.getLocale().toString().equals("bs")) keywordsField.setPromptText("Razdvojite zarezom");
+        else keywordsField.setPromptText("Separate with comma");
         listAuthors.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         listAuthors.setCellFactory(param -> new ListCell<Author>() {
             @Override
@@ -166,7 +167,7 @@ public class AddController {
     public void okButtonAction(ActionEvent actionEvent) {
         //ako je dodavanje novog
         if(nameSubjectValidation(resPaperNameField.getText()) && nameSubjectValidation(subjectField.getText()) && nameSubjectValidation(keywordsField.getText()) && listAuthors.getSelectionModel().getSelectedItem() != null && purpose == Purpose.ADD) {
-            String[] strings =keywordsField.getText().split(",");
+            String[] strings = keywordsField.getText().split(",");
             ArrayList<Author> autori = new ArrayList<>(listAuthors.getSelectionModel().getSelectedItems());
             ResearchPaper researchPaper = null;
             try {
@@ -174,6 +175,8 @@ public class AddController {
             } catch (WrongResearchPaperDataException e) {
                 e.printStackTrace();
             }
+            for(ResearchPaper rp : dao.getResearchPapers())
+                if(rp.equals(researchPaper)) return;
             dao.addResearchPaper(researchPaper, textArea.getText());
             okButton.getScene().getWindow().hide();
             //ako je izmjena starog
