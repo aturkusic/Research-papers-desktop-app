@@ -23,22 +23,22 @@
     <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="true" text="%_Options">
+          <Menu text="%Options">
             <items>
-                  <MenuItem onAction="#saveAction" text="%_Save" />
+                  <MenuItem onAction="#saveAction" text="%Save" />
                   <Menu mnemonicParsing="false" text="%Language">
                      <items>
                         <CheckMenuItem fx:id="engLanguage" mnemonicParsing="false" onAction="#engAction" text="ENG" />
                         <CheckMenuItem fx:id="bsLanguage" mnemonicParsing="false" onAction="#bosanskiAction" text="BS" />
                      </items>
                   </Menu>
-                  <MenuItem onAction="#printAction" text="%_Print" />
-              <MenuItem onAction="#exitAction" text="%_Exit" />
+                  <MenuItem onAction="#printAction" text="%Print" />
+              <MenuItem onAction="#exitAction" text="%Exit" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="true" text="%_About">
+            <Menu text="%About">
               <items>
-                <MenuItem onAction="#aboutAction" text="%_About" />
+                <MenuItem onAction="#aboutAction" text="%About" />
               </items>
             </Menu>
         </menus>
